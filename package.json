@@ -1,0 +1,16 @@
+{
+  "name": "python-electron-webapp-example",
+  "version": "1.0.0",
+  "description": "An example of how to create a desktop application with the electron framework and python backend",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+     "start": "electron --enable-transparent-visuals ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^32.0.1"
+  }
+}
