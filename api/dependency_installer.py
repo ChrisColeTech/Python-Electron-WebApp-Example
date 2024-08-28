@@ -6,7 +6,6 @@ import zipfile
 import importlib
 import urllib.request
 import re
-import torch
 
 
 re_requirement = re.compile(r"\s*([-\w]+)\s*(?:==\s*([-+.\w]+))?\s*")
@@ -41,8 +40,6 @@ def check_tkinter_installed():
 
 
 def check_GPUtil_installed():
-    if not torch.cuda.is_available():
-        return False
 
     try:
         import GPUtil
@@ -53,8 +50,6 @@ def check_GPUtil_installed():
 
 
 def check_flask_installed():
-    if not torch.cuda.is_available():
-        return False
 
     try:
         import flask
