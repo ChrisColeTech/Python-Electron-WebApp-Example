@@ -44,11 +44,25 @@ const fixedLabelPlugin = {
       labelPositions.push({
         x: centerX,
         y: yPos,
-        value: `${value.toFixed(2)}` + `${index == 5 ? "°" : "%"}`,
+        value: `${+value.toFixed(2)}` + `${index == 5 ? "\u00B0" : "%"}`,
       });
     });
+    const size = localStorage.getItem("chart-size") ?? "small";
+    let fontSize = 10; // Default font size
 
-    ctx.font = "8px Arial";
+    switch (size) {
+      case "small":
+        fontSize = "10px";
+        break;
+      case "medium":
+        fontSize = "16px";
+        break;
+      default:
+        fontSize = "18px";
+        break;
+    }
+
+    ctx.font = fontSize;
     ctx.fillStyle = "#FFFFFF";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
@@ -69,6 +83,20 @@ function initializeBarChart() {
   const chartWrapper = document.getElementById("chart-wrapper");
   if (existingCanvas) {
     chartContainer.removeChild(existingCanvas);
+  }
+  const size = localStorage.getItem("chart-size") ?? "small";
+  let fontSize = 10; // Default font size
+
+  switch (size) {
+    case "small":
+      fontSize = "10px";
+      break;
+    case "medium":
+      fontSize = "16px";
+      break;
+    default:
+      fontSize = "18px";
+      break;
   }
 
   // Create a new canvas element
@@ -117,7 +145,7 @@ function initializeBarChart() {
           ticks: {
             color: "#ffffff",
             font: {
-              size: 7,
+              size: fontSize,
               weight: 600,
             },
             align: "center",
@@ -139,15 +167,13 @@ function initializeBarChart() {
             crossAlign: "far",
             font: {
               weight: 600,
+              size: fontSize,
             },
             // Specify the maximum number of ticks to show
             maxTicksLimit: 10,
             // Control the step size between ticks
             stepSize: 1,
             // Optional: Set font size and other style properties
-            font: {
-              size: 7,
-            },
           },
         },
       },
@@ -451,8 +477,19 @@ function generateCustomLegend() {
       ? "#D9534F"
       : `${borderColors[index]}`;
 
-    legendText.style.fontWeight = shouldUseRed ? "700" : `400`;
-    legendText.style.fontSize = "10px";
+    legendText.style.fontWeight = shouldUseRed ? "800" : `600`;
+    const size = localStorage.getItem("chart-size") ?? "small";
+    switch (size) {
+      case "small":
+        legendText.style.fontSize = "10px";
+        break;
+      case "medium":
+        legendText.style.fontSize = "16px";
+        break;
+      default:
+        legendText.style.fontSize = "18px";
+        break;
+    }
 
     legendItem.appendChild(legendText);
     legendContainer.appendChild(legendItem);

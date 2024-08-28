@@ -6,10 +6,9 @@ let pythonProcess;
 let mainWindow;
 
 function startPythonServer() {
-  const scriptPath = path.join(__dirname, "api", "http_server.py");
-  console.log(`Starting Python server with script at: ${scriptPath}`);
+  const pythonExecutablePath = path.join(__dirname, "api", "http_server");
 
-  pythonProcess = spawn("python", [scriptPath]);
+  const pythonProcess = spawn(pythonExecutablePath);
 
   pythonProcess.stdout.on("data", (data) => {
     console.log(`Python stdout: ${data}`);
@@ -25,9 +24,6 @@ function startPythonServer() {
 
   pythonProcess.on("close", (code) => {
     console.log(`Python process exited with code ${code}`);
-    if (code !== 0) {
-      console.error("Python process exited with an error.");
-    }
   });
 }
 
@@ -56,7 +52,7 @@ function createWindow() {
     )
   );
 
-  mainWindow.webContents.openDevTools({ mode: "undocked" });
+  // mainWindow.webContents.openDevTools({ mode: "undocked" });
 
   mainWindow.on("closed", () => {
     mainWindow = null;
@@ -79,7 +75,6 @@ function createWindow() {
   // Event listener for when the window has been moved
   mainWindow.on("moved", () => {
     const bounds = mainWindow.getBounds();
-    console.log("Window has been moved to:", bounds);
     // Send the new position to the renderer process if needed
     mainWindow.webContents.send("window-moved", bounds);
   });
