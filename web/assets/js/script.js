@@ -1,6 +1,6 @@
 // ELECTRON FUNCTIONS //
 // Function to animate window movement
-function animateWindowMove(targetX, targetY, duration = 500) {
+function animateWindowMove(targetX, targetY, duration = 300) {
   window.electron
     .getWindowBounds()
     .then(async (startBounds) => {
@@ -64,7 +64,7 @@ function animateWindowBounds(
   targetY,
   targetWidth,
   targetHeight,
-  duration = 500
+  duration = 300
 ) {
   return new Promise((resolve) => {
     window.electron
@@ -106,7 +106,7 @@ function animateWindowBounds(
   });
 }
 
-function animateWindowResize(targetWidth, targetHeight, duration = 500) {
+function animateWindowResize(targetWidth, targetHeight, duration = 300) {
   return new Promise((resolve) => {
     window.electron
       .getWindowBounds()
@@ -697,11 +697,11 @@ async function updateChartSize() {
   } else {
     if (position === "center") {
       // Animate the window resize to the final dimensions
-      await animateWindowResize(buttonWidth + 25, buttonHeight + 25, 300);
+      await animateWindowResize(buttonWidth + 25, buttonHeight + 25, 200);
       moveToCenter();
     } else {
       // Animate the window resize to the final dimensions
-      await animateWindowResize(buttonWidth + 25, buttonHeight + 25, 300);
+      await animateWindowResize(buttonWidth + 25, buttonHeight + 25, 200);
     }
   }
 
@@ -750,7 +750,6 @@ async function updateChartSize() {
   });
 
   const hasUpdates = localStorage.getItem("hasUpdates") ?? "false";
-
   if (hasUpdates === "true") {
     if (savedChart == "bar") {
       $(chartContainer).each(function () {
@@ -763,7 +762,12 @@ async function updateChartSize() {
 
       initializeBarChart();
     } else {
-      initializeLineChart();
+      $(chartContainer).each(function () {
+        this.style.setProperty("height", `unset`, "important");
+      });
+      setTimeout(() => {
+        initializeLineChart();
+      }, 500);
     }
   } else {
     $("#chart-wrapper").fadeIn();
